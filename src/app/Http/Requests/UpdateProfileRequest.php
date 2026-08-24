@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\validation\Rules;
-use Illuminate\validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -26,17 +24,17 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required','string','max:255'],
-            'email' => ['required','string','email','max:255', Rule::unique('users')->ignore($this->user()->id),],
-            'phone' => ['nullable','string','max:20'],
-            'professional_url' => ['nullable','url','max:255'],
-            'photo' => ['nullable','image','mimes:jpg,jpeg,png','max:2048'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->user()->id),],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'professional_url' => ['nullable', 'url', 'max:255'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }
 
     public function messages(): array
     {
-        return[
+        return [
             'name.required' => 'El nombre es obligatoio.',
             'email.unique' => 'Ese email ya esta en uso por otro ususario.',
             'professional_url.url' => 'La url debe ser valido.',
@@ -44,6 +42,5 @@ class UpdateProfileRequest extends FormRequest
             'photo.mimes' => 'La foto debe ser JPG o PNG.',
             'photo.max' => 'la fot no puede pesar mas de 2MB.',
         ];
-
     }
 }

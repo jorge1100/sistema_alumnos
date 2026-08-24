@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+
+// rutas que ya vienen con Breeze (login, registro, perfil, etc.)
+// No las toques
+//
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +23,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+// ==================================================
+// RUTAS DEL ADMINISTRADOR(DOCENTE) - Protegidas
+// ==================================================
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+});

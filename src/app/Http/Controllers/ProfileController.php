@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,7 +13,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Muestra el perfil del ususario logueado.
+     * Muestra el perfil del usuario logueado.
      */
     public function edit(Request $request): View
     {
@@ -24,37 +23,31 @@ class ProfileController extends Controller
     }
 
     /**
-     * Actualizar la informacion del perfil.
+     * Actualiza la información del perfil.
      */
     public function update(UpdateProfileRequest $request): RedirectResponse
     {
-        $user = $request->validated();
+        $user = $request->user();
         $validated = $request->validated();
 
-        //si subio una nueva foto, reemplazar la anterior.
+        // Si subió una nueva foto
         if ($request->hasFile('photo')) {
-            //Borrar la foto anterior si existe
+            // Borrar la foto anterior si existe
             if ($user->photo_path && Storage::disk('public')->exists($user->photo_path)) {
                 Storage::disk('public')->delete($user->photo_path);
             }
-            // Guardar la nueva foto
-            $validated['photo_path'] = $request->file('photo')->store('profile', 'public');
+
+            // Guardar la nueva foto en storage/app/public/profiles/
+            $user->photo_path = $request->file('photo')->store('profiles', 'public');
         }
 
-        //Actualizar los capos.
-        $user->fill([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'] ?? null,
-            'professional_url' => $validated['professional_url'] ?? null,
-        ]);
+        // Actualizar los demás campos
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->phone = $validated['phone'] ?? null;
+        $user->professional_url = $validated['professional_url'] ?? null;
 
-        // Solo Actualizar photo_path si se subio una nueva foto
-        if (isset($validated['photo_path'])) {
-            $user->photo_path = $validated['photo_path'];
-        }
-
-        // Si cambio el email, deverificar
+        // Si cambió el email, desverificar
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
@@ -65,7 +58,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Eliminar la cuenta del ususario.
+     * Elimina la cuenta del usuario.
      */
     public function destroy(Request $request): RedirectResponse
     {
@@ -77,8 +70,7 @@ class ProfileController extends Controller
 
         Auth::logout();
 
-        //Borrar la foto del Storage
-
+        // Borrar la foto del storage
         if ($user->photo_path && Storage::disk('public')->exists($user->photo_path)) {
             Storage::disk('public')->delete($user->photo_path);
         }
