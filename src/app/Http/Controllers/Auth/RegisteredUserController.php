@@ -27,15 +27,15 @@ class RegisteredUserController extends Controller
     /**
      * Procesa el registro de un nuevo ususario.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse
     {
         // Valida los datos (StoreUserRequest se encarga)
         $validated = $request->validated();
 
         // Subir la foto de perfil
         $photoPath = null;
-        if ($request->hasFile('photo')){
-            $photoPath = $request->file('photo')->store('profiles','public');
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('profiles', 'public');
         }
         //crear el ususario
         $user = User::create([
@@ -43,6 +43,9 @@ class RegisteredUserController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'phone' => $validated['phone'] ?? null,
+            'professional_url' => $validated['professional_url'] ?? null,
+            'photo_path' => $photoPath,
+            'is_admin' => false, //Los registrados por el formulario son alumnos.
 
         ]);
 
