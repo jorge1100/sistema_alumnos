@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
         // Usuario administrador (docente)
         User::create([
             'name' => 'Docente Administrador',
-            'email' => 'admin@utn.edu.ar',
-            'password' => Hash::make('password'),
+            'email' => 'profe@profe.com',
+            'password' => Hash::make('123456789'),
             'phone' => '+54 9 351 2345678',
             'professional_url' => 'https://linkedin.com/in/docente-utn',
             'photo_path' => null,
