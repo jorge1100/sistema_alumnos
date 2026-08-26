@@ -326,7 +326,7 @@ docker compose up -d --build
 
 # 👨‍💻 Autor
 
-**Jorge Luis Rojas Jojot**
+**Jorge Rojas**
 
 Técnicatura Universitaria en Programación  
 Universidad Tecnológica Nacional (UTN)
