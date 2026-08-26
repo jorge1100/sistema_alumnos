@@ -1,319 +1,387 @@
-# 📘 Guía de Instalación y Uso — App DocentesAlumnos
+📘 Guía de Instalación y Uso
+DocentesAlumnos
 
-> **UTN — Técnicatura Universitaria en Programación | Programación IV**
-> Laravel 13 · MySQL · Blade · Tailwind CSS · Breeze
+UTN – Técnicatura Universitaria en Programación
+ Programación IV
+ Laravel 13 · MySQL · Docker · Blade · Tailwind CSS · Breeze
 
----
+📋 Descripción del sistema
 
-## 📋 Descripción del sistema
+DocentesAlumnos es una aplicación web desarrollada con Laravel 13 que permite la gestión de usuarios con distintos niveles de acceso.
 
-Aplicación web desarrollada en **Laravel 13** con base de datos **MySQL** que gestiona usuarios con autenticación y roles simples:
+Roles disponibles
+👨‍🏫 Docente / Administrador
 
-- **Docente / Administrador**: puede ver el listado completo de usuarios registrados y el detalle de cada uno.
-- **Alumno**: puede registrarse, subir foto de perfil, y acceder y modificar únicamente su propio perfil.
+Puede:
 
----
+Iniciar sesión como administrador.
+Ver el listado completo de alumnos registrados.
+Consultar el detalle de cualquier usuario.
+Acceder a los enlaces de WhatsApp y redes profesionales de los alumnos.
+👨‍🎓 Alumno
 
-## 🛠️ Requisitos previos
+Puede:
 
-| Software | Versión mínima |
-|----------|---------------|
-| PHP | 8.3 |
-| Composer | 2.x |
-| Node.js | 18+ |
-| MySQL / MariaDB | 5.7+ |
-| Git | Cualquiera |
+Registrarse en la aplicación.
+Subir una foto de perfil.
+Ver su información personal.
+Modificar únicamente su propio perfil.
+🐳 Requisitos Previos
+
+Para ejecutar el sistema solo se necesita:
+
+Docker Desktop
+https://www.docker.com/products/docker-desktop/
+Git
+https://git-scm.com/
 
 Verificar instalación:
-```bash
-php -v
-composer -v
-node -v
-mysql --version
-```
 
----
-
-## 🚀 Instalación paso a paso
-
-### 1. Clonar o crear el proyecto
-
-```bash
-git clone <url-del-repo> DocentesAlumnos
+Shell
+1
+docker --version
+2
+docker compose version
+3
+git --version
+Mostrar más líneas
+🚀 Instalación del Proyecto
+1. Clonar el repositorio
+Shell
+1
+git clone https://github.com/USUARIO/DocentesAlumnos.git
+2
 cd DocentesAlumnos
-```
+Mostrar más líneas
+2. Copiar variables de entorno
+Shell
+1
+cp .env.example .env
+Mostrar más líneas
+3. Levantar los contenedores
+Shell
+1
+docker compose up -d --build
+Mostrar más líneas
 
-O crear desde cero:
-```bash
-composer create-project laravel/laravel DocentesAlumnos
-cd DocentesAlumnos
-```
+Docker descargará y configurará automáticamente:
 
-### 2. Instalar dependencias de Laravel Breeze
+PHP 8.3
+Laravel 13
+Composer
+Node.js
+MySQL
+Nginx
 
-```bash
-composer require laravel/breeze --dev
-php artisan breeze:install blade
-```
+Este proceso puede tardar algunos minutos la primera vez.
 
-Cuando pregunte:
-- Stack: **blade**
-- Dark mode: **no**
-- Pest tests: **no**
+4. Generar la clave de la aplicación
+Shell
+1
+docker compose exec app php artisan key:generate
+Mostrar más líneas
+5. Ejecutar migraciones y seeders
+Shell
+1
+docker compose exec app php artisan migrate:fresh --seed
+Mostrar más líneas
 
-### 3. Compilar assets (CSS y JS)
+Esto creará:
 
-```bash
-npm install
-npm run build
-```
+La base de datos.
+Todas las tablas necesarias.
+El usuario administrador de prueba.
+6. Crear enlace para almacenamiento de fotos
+Shell
+1
+docker compose exec app php artisan storage:link
+Mostrar más líneas
+7. Compilar assets
 
-### 4. Configurar la base de datos
+Si el proyecto ya incluye los assets compilados este paso no será necesario.
 
-Editar el archivo `.env`:
+Caso contrario:
 
-```env
+Shell
+1
+docker compose exec app npm install
+2
+docker compose exec app npm run build
+Mostrar más líneas
+8. Acceder al sistema
+
+Abrir:
+
+Plain Text
+1
+http://localhost:8000
+Mostrar más líneas
+🔐 Credenciales de Prueba
+Administrador
+Plain Text
+1
+Email: admin@utn.edu.ar
+2
+Password: password
+Mostrar más líneas
+Alumno
+
+Registrarse desde:
+
+Plain Text
+1
+http://localhost:8000/register
+Mostrar más líneas
+🗂️ Estructura Docker
+Plain Text
+1
+DocentesAlumnos
+2
+│
+3
+├── app/
+4
+├── bootstrap/
+5
+├── config/
+6
+├── database/
+7
+├── public/
+8
+├── resources/
+9
+├── routes/
+10
+├── storage/
+11
+│
+12
+├── docker/
+13
+│ ├── nginx/
+14
+│ │ └── default.conf
+15
+│ └── php/
+16
+│ └── Dockerfile
+17
+│
+18
+├── docker-compose.yml
+19
+├── .env.example
+20
+└── README.md
+Mostrar más líneas
+⚙️ Variables de Entorno
+
+El archivo .env ya viene preparado para Docker.
+
+Plain Text
+env no es totalmente compatible. El resaltado de sintaxis se basa en Plain Text.
+1
+APP_NAME=DocentesAlumnos
+2
+ 
+3
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+4
+DB_HOST=db
+5
 DB_PORT=3306
+6
 DB_DATABASE=docentes_alumnos
-DB_USERNAME=root
-DB_PASSWORD=tu_password
-
+7
+DB_USERNAME=laravel
+8
+DB_PASSWORD=secret
+9
+ 
+10
 WHATSAPP_PREFIX=+54
-```
+Mostrar más líneas
+🧪 Flujo de Uso
+Como Docente
+Iniciar sesión con:
+Plain Text
+1
+admin@utn.edu.ar
+2
+password
+Mostrar más líneas
+Acceder a:
+Plain Text
+1
+Usuarios
+2
+``
+Mostrar más líneas
 
-Crear la base de datos:
-```bash
-mysql -u root -p
-```
-```sql
-CREATE DATABASE docentes_alumnos;
-EXIT;
-```
+Ver el listado completo de alumnos.
 
-### 5. Configurar el prefijo de WhatsApp
+Consultar el detalle de cualquier usuario.
 
-En `config/app.php`, agregar dentro del array de retorno:
+Utilizar:
 
-```php
-'whatsapp_prefix' => env('WHATSAPP_PREFIX', '+54'),
-```
+Enlace directo a WhatsApp.
+Enlace a LinkedIn, GitHub u otra red profesional.
+Foto de perfil.
+Como Alumno
+Registrarse.
+Completar todos los campos solicitados.
+Subir foto de perfil.
+Iniciar sesión.
+Acceder a:
+Plain Text
+1
+Perfil
+Mostrar más líneas
+Editar información personal.
+🗄️ Modelo de Datos
 
-### 6. Ejecutar migraciones y seeders
+Tabla principal: users
 
-```bash
-php artisan migrate:fresh --seed
-```
+Campos relevantes:
 
-Esto crea:
-- La tabla `users` con todos los campos requeridos
-- El usuario administrador de prueba
+Plain Text
+1
+id
+2
+name
+3
+email
+4
+password
+5
+is_admin
+6
+phone
+7
+professional_url
+8
+photo_path
+9
+email_verified_at
+10
+remember_token
+11
+created_at
+12
+updated_at
+Mostrar más líneas
+🛠️ Comandos Útiles
+Ver logs
+Shell
+1
+docker compose logs -f
+Mostrar más líneas
+Ingresar al contenedor
+Shell
+1
+docker compose exec app bash
+Mostrar más líneas
+Reiniciar contenedores
+Shell
+1
+docker compose restart
+Mostrar más líneas
+Detener el proyecto
+Shell
+1
+docker compose down
+Mostrar más líneas
+Eliminar y reconstruir todo
+Shell
+1
+docker compose down -v
+2
+docker compose up -d --build
+Mostrar más líneas
+🐛 Solución de Problemas
+Error de migraciones
 
-### 7. Crear enlace simbólico para fotos
-
-```bash
-php artisan storage:link
-```
-
-### 8. Dar permisos (si usás Docker o Linux)
-
-```bash
-chmod -R 775 storage
-chmod -R 775 bootstrap/cache
-```
-
-### 9. Levantar el servidor
-
-```bash
-php artisan serve
-```
-
-Abrir en navegador: `http://localhost:8000`
-
----
-
-## 🔐 Credenciales de prueba
-
-| Rol | Email | Contraseña |
-|-----|-------|------------|
-| Docente / Admin | `admin@utn.edu.ar` | `password` |
-| Alumno | Registrarse desde el formulario | - |
-
----
-
-## 📁 Estructura de archivos modificados
-
-```
-app/
-├── Http/
-│   ├── Controllers/
-│   │   ├── Auth/RegisteredUserController.php    ← Registro con campos extra
-│   │   ├── ProfileController.php                ← Edición de perfil con foto
-│   │   └── Admin/
-│   │       └── UserController.php               ← Listado y detalle (admin)
-│   ├── Middleware/
-│   │   └── IsAdmin.php                          ← Middleware de rol admin
-│   ├── Requests/
-│   │   ├── StoreUserRequest.php                 ← Validación de registro
-│   │   └── UpdateProfileRequest.php             ← Validación de edición
-│   ├── Models/
-│   │   └── User.php                             ← Modelo con métodos útiles
-│   └── Policies/
-│       └── UserPolicy.php                       ← Control de acceso
-├── Providers/
-│   └── AuthServiceProvider.php                  ← Registro de policies
-
-bootstrap/
-└── app.php                                      ← Registro de middleware
-
-database/
-├── migrations/
-│   └── 0001_01_01_000000_create_users_table.php ← Tabla users con campos extra
-└── seeders/
-    └── DatabaseSeeder.php                       ← Usuario admin de prueba
-
-resources/views/
-├── auth/
-│   └── register.blade.php                       ← Formulario de registro extendido
-├── profile/
-│   └── edit.blade.php                           ← Perfil del alumno
-│   └── partials/
-│       └── update-profile-information-form.blade.php
-├── admin/
-│   └── users/
-│       ├── index.blade.php                      ← Listado de usuarios
-│       └── show.blade.php                       ← Detalle de usuario
-└── layouts/
-    └── navigation.blade.php                     ← Menú con link de admin
-
-routes/
-└── web.php                                      ← Rutas protegidas
-```
-
----
-
-## 🎯 Funcionalidades implementadas
-
-### Autenticación y Registro
-- Login y registro con Laravel Breeze (Blade)
-- Registro con campos: nombre, email, contraseña, teléfono, red profesional, **foto de perfil obligatoria**
-- Verificación de email (opcional)
-- Recuperación de contraseña
-
-### Roles
-- **Administrador (docente)**: `is_admin = true`
-  - Acceso a `/admin/users` (listado completo)
-  - Acceso a `/admin/users/{id}` (detalle de cualquier usuario)
-- **Alumno**: `is_admin = false`
-  - Solo puede ver y editar su propio perfil en `/profile`
-
-### Perfil de Usuario
-- Foto de perfil visible en perfil y listado
-- Teléfono con hipervínculo directo a **WhatsApp** (abre en nueva pestaña)
-- Enlace a red profesional (LinkedIn, GitHub, etc.) con `target="_blank"`
-- Edición de datos personales y foto
-
-### Seguridad
-- Middleware `auth` en rutas protegidas
-- Middleware `admin` para rutas de docente
-- Validación de formularios con FormRequest
-- Policies (`viewAny`, `view`, `update`, `delete`)
-- Prefijo de país para WhatsApp configurable en `.env`
-
----
-
-## 🗄️ Modelo de datos (tabla `users`)
-
-| Campo | Tipo | Descripción |
-|-------|------|-------------|
-| `id` | BIGINT (PK, AI) | Clave primaria |
-| `name` | VARCHAR(255) | Nombre completo |
-| `email` | VARCHAR(255) | Email único |
-| `password` | VARCHAR(255) | Contraseña hasheada |
-| `is_admin` | BOOLEAN | `true` = docente, `false` = alumno |
-| `phone` | VARCHAR(20) | Teléfono (opcional) |
-| `professional_url` | VARCHAR(255) | Red profesional (opcional) |
-| `photo_path` | VARCHAR(255) | Ruta de la foto en storage |
-| `email_verified_at` | TIMESTAMP | Verificación de email |
-| `remember_token` | VARCHAR(100) | Token "recordarme" |
-| `created_at` / `updated_at` | TIMESTAMP | Timestamps automáticos |
-
----
-
-## 🧪 Flujo de uso
-
-### Como Docente
-1. Iniciar sesión con `admin@utn.edu.ar` / `password`
-2. En el menú superior aparece **"Usuarios"**
-3. Hacer clic para ver el listado completo
-4. Hacer clic en **"Ver detalle"** para ver datos de un alumno específico
-5. Desde el detalle se puede:
-   - Ver foto de perfil
-   - Hacer clic en el teléfono para abrir WhatsApp
-   - Hacer clic en la red profesional para abrir en nueva pestaña
-
-### Como Alumno
-1. Hacer clic en **"Registrarse"**
-2. Completar todos los campos (foto de perfil es **obligatoria**)
-3. Iniciar sesión
-4. Ir a **"Perfil"** en el menú desplegable
-5. Ver datos personales con links clickeables
-6. Editar información personal y cambiar foto de perfil
-
----
-
-## ⚙️ Configuraciones adicionales
-
-### Cambiar el prefijo de país para WhatsApp
-Editar `.env`:
-```env
-WHATSAPP_PREFIX=+54   # Argentina
-# WHATSAPP_PREFIX=+598  # Uruguay
-# WHATSAPP_PREFIX=+56   # Chile
-```
-
-### Cambiar el usuario administrador
-Editar `database/seeders/DatabaseSeeder.php` y volver a ejecutar:
-```bash
-php artisan migrate:fresh --seed
-```
-
----
-
-## 🐛 Solución de problemas comunes
-
-### Error de permisos en `storage/`
-```bash
-chmod -R 775 storage
-chmod -R 775 bootstrap/cache
-```
-
-### Error "View not found"
-Verificar que las vistas estén en `resources/views/admin/users/` (plural).
-
-### La foto no se muestra
-1. Verificar que se ejecutó `php artisan storage:link`
-2. Verificar permisos de `storage/app/public/profiles/`
-3. Verificar que el campo `photo_path` no esté vacío en la base de datos
-
-### Error de base de datos "Column not found"
 Ejecutar:
-```bash
-php artisan migrate:fresh --seed
-```
 
----
+Shell
+1
+docker compose exec app php artisan migrate:fresh --seed
+Mostrar más líneas
+La imagen no se muestra
 
-## 📚 Tecnologías utilizadas
+Verificar:
 
-- **Laravel 13** — Framework PHP
-- **MySQL** — Base de datos relacional
-- **Blade** — Motor de plantillas
-- **Tailwind CSS** — Framework CSS (incluido en Breeze)
-- **Laravel Breeze** — Kit de autenticación
-- **Vite** — Bundler de assets
+Shell
+1
+docker compose exec app php artisan storage:link
+Mostrar más líneas
 
----
+Comprobar que exista:
 
-> Desarrollado para la asignatura **Programación IV** — UTN
+Plain Text
+1
+storage/app/public/profiles
+Mostrar más líneas
+Error de conexión con MySQL
+
+Verificar contenedores activos:
+
+Shell
+1
+docker compose ps
+Mostrar más líneas
+
+La base de datos debe aparecer como:
+
+Plain Text
+1
+db running
+Mostrar más líneas
+Reconstrucción completa
+Shell
+1
+docker compose down -v
+2
+docker compose up -d --build
+3
+docker compose exec app php artisan migrate:fresh --seed
+Mostrar más líneas
+📚 Tecnologías Utilizadas
+Laravel 13
+PHP 8.3
+MySQL 8
+Docker & Docker Compose
+Laravel Breeze
+Blade
+Tailwind CSS
+Vite
+✅ Instalación rápida (TL;DR)
+Shell
+1
+git clone https://github.com/USUARIO/DocentesAlumnos.git
+2
+cd DocentesAlumnos
+3
+ 
+4
+cp .env.example .env
+5
+ 
+6
+docker compose up -d --build
+7
+ 
+8
+docker compose exec app php artisan key:generate
+9
+docker compose exec app php artisan migrate:fresh --seed
+10
+docker compose exec app php artisan storage:link
+11
+ 
+12
+http://localhost:8000
+Mostrar más líneas
+
+Con estos pasos cualquier docente puede clonar el repositorio y tener el proyecto funcionando sin instalar PHP, Composer, Node.js ni MySQL en su computadora.
