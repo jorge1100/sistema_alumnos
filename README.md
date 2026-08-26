@@ -1,387 +1,351 @@
-📘 Guía de Instalación y Uso
-DocentesAlumnos
+# 🎓 DocentesAlumnos
 
-UTN – Técnicatura Universitaria en Programación
- Programación IV
- Laravel 13 · MySQL · Docker · Blade · Tailwind CSS · Breeze
+> Trabajo Práctico Integrador - Programación IV  
+> Técnicatura Universitaria en Programación - UTN
 
-📋 Descripción del sistema
+Aplicación web desarrollada con **Laravel 13** que permite la gestión de usuarios con autenticación, perfiles personalizados y control de acceso mediante roles.
 
-DocentesAlumnos es una aplicación web desarrollada con Laravel 13 que permite la gestión de usuarios con distintos niveles de acceso.
+---
 
-Roles disponibles
-👨‍🏫 Docente / Administrador
+## 📖 Descripción
 
-Puede:
+El sistema implementa dos tipos de usuarios:
 
-Iniciar sesión como administrador.
-Ver el listado completo de alumnos registrados.
-Consultar el detalle de cualquier usuario.
-Acceder a los enlaces de WhatsApp y redes profesionales de los alumnos.
-👨‍🎓 Alumno
+### 👨‍🏫 Docente / Administrador
 
-Puede:
+- Acceso al listado completo de usuarios registrados.
+- Visualización del detalle de cada alumno.
+- Consulta de información de contacto.
+- Acceso a enlaces de WhatsApp y redes profesionales.
 
-Registrarse en la aplicación.
-Subir una foto de perfil.
-Ver su información personal.
-Modificar únicamente su propio perfil.
-🐳 Requisitos Previos
+### 👨‍🎓 Alumno
 
-Para ejecutar el sistema solo se necesita:
+- Registro de cuenta.
+- Carga de fotografía de perfil.
+- Visualización de su información personal.
+- Edición de sus propios datos.
+- Acceso a enlaces personales.
 
-Docker Desktop
-https://www.docker.com/products/docker-desktop/
-Git
-https://git-scm.com/
+---
+
+## ✨ Funcionalidades Implementadas
+
+### 🔐 Autenticación
+
+- Login de usuarios.
+- Registro de nuevos usuarios.
+- Recuperación de contraseña.
+- Gestión de sesiones.
+- Protección de rutas mediante middleware.
+
+### 👤 Gestión de Perfil
+
+- Foto de perfil obligatoria.
+- Teléfono configurable.
+- Enlace a red profesional (LinkedIn, GitHub, Portfolio, etc.).
+- Edición de datos personales.
+- Actualización de fotografía.
+
+### 👥 Gestión de Roles
+
+- Administrador (`is_admin = true`)
+- Alumno (`is_admin = false`)
+
+### 🛡️ Seguridad
+
+- Middleware de autenticación.
+- Middleware de administrador.
+- Policies de autorización.
+- Validación mediante Form Requests.
+- Contraseñas encriptadas con Hash.
+
+### 📱 Integración con WhatsApp
+
+Los teléfonos registrados pueden abrir una conversación directamente mediante un enlace generado automáticamente.
+
+---
+
+# 🏗️ Arquitectura
+
+```text
+Laravel 13
+│
+├── Blade
+├── Breeze
+├── Tailwind CSS
+├── MySQL
+├── Vite
+└── Docker
+```
+
+---
+
+# 📂 Estructura Principal del Proyecto
+
+```text
+app
+├── Http
+│   ├── Controllers
+│   ├── Middleware
+│   └── Requests
+│
+├── Models
+│
+└── Policies
+
+database
+├── migrations
+└── seeders
+
+resources
+├── views
+│   ├── admin
+│   ├── auth
+│   └── profile
+
+routes
+└── web.php
+```
+
+---
+
+# 🗄️ Modelo de Datos
+
+## Tabla: users
+
+| Campo | Tipo |
+|---------|---------|
+| id | BIGINT |
+| name | VARCHAR(255) |
+| email | VARCHAR(255) |
+| password | VARCHAR(255) |
+| is_admin | BOOLEAN |
+| phone | VARCHAR(20) |
+| professional_url | VARCHAR(255) |
+| photo_path | VARCHAR(255) |
+| email_verified_at | TIMESTAMP |
+| remember_token | VARCHAR(100) |
+| created_at | TIMESTAMP |
+| updated_at | TIMESTAMP |
+
+---
+
+# 🐳 Instalación con Docker
+
+## Requisitos
+
+- Docker Desktop
+- Docker Compose
+- Git
 
 Verificar instalación:
 
-Shell
-1
+```bash
 docker --version
-2
 docker compose version
-3
 git --version
-Mostrar más líneas
-🚀 Instalación del Proyecto
-1. Clonar el repositorio
-Shell
-1
-git clone https://github.com/USUARIO/DocentesAlumnos.git
-2
+```
+
+---
+
+## 1️⃣ Clonar el repositorio
+
+```bash
+git clone https://github.com/TU-USUARIO/DocentesAlumnos.git
+
 cd DocentesAlumnos
-Mostrar más líneas
-2. Copiar variables de entorno
-Shell
-1
+```
+
+---
+
+## 2️⃣ Copiar variables de entorno
+
+```bash
 cp .env.example .env
-Mostrar más líneas
-3. Levantar los contenedores
-Shell
-1
+```
+
+---
+
+## 3️⃣ Levantar contenedores
+
+```bash
 docker compose up -d --build
-Mostrar más líneas
+```
 
-Docker descargará y configurará automáticamente:
+---
 
-PHP 8.3
-Laravel 13
-Composer
-Node.js
-MySQL
-Nginx
+## 4️⃣ Generar clave de Laravel
 
-Este proceso puede tardar algunos minutos la primera vez.
-
-4. Generar la clave de la aplicación
-Shell
-1
+```bash
 docker compose exec app php artisan key:generate
-Mostrar más líneas
-5. Ejecutar migraciones y seeders
-Shell
-1
+```
+
+---
+
+## 5️⃣ Ejecutar migraciones y seeders
+
+```bash
 docker compose exec app php artisan migrate:fresh --seed
-Mostrar más líneas
+```
 
-Esto creará:
+---
 
-La base de datos.
-Todas las tablas necesarias.
-El usuario administrador de prueba.
-6. Crear enlace para almacenamiento de fotos
-Shell
-1
+## 6️⃣ Crear enlace para almacenamiento
+
+```bash
 docker compose exec app php artisan storage:link
-Mostrar más líneas
-7. Compilar assets
+```
 
-Si el proyecto ya incluye los assets compilados este paso no será necesario.
+---
 
-Caso contrario:
+## 7️⃣ Acceder a la aplicación
 
-Shell
-1
-docker compose exec app npm install
-2
-docker compose exec app npm run build
-Mostrar más líneas
-8. Acceder al sistema
-
-Abrir:
-
-Plain Text
-1
+```text
 http://localhost:8000
-Mostrar más líneas
-🔐 Credenciales de Prueba
-Administrador
-Plain Text
-1
+```
+
+---
+
+# 🔑 Usuario de Prueba
+
+## Administrador
+
+```text
 Email: admin@utn.edu.ar
-2
 Password: password
-Mostrar más líneas
-Alumno
+```
 
-Registrarse desde:
+---
 
-Plain Text
-1
-http://localhost:8000/register
-Mostrar más líneas
-🗂️ Estructura Docker
-Plain Text
-1
-DocentesAlumnos
-2
-│
-3
-├── app/
-4
-├── bootstrap/
-5
-├── config/
-6
-├── database/
-7
-├── public/
-8
-├── resources/
-9
-├── routes/
-10
-├── storage/
-11
-│
-12
-├── docker/
-13
-│ ├── nginx/
-14
-│ │ └── default.conf
-15
-│ └── php/
-16
-│ └── Dockerfile
-17
-│
-18
-├── docker-compose.yml
-19
-├── .env.example
-20
-└── README.md
-Mostrar más líneas
-⚙️ Variables de Entorno
+# 🧪 Casos de Uso
 
-El archivo .env ya viene preparado para Docker.
+## Como Alumno
 
-Plain Text
-env no es totalmente compatible. El resaltado de sintaxis se basa en Plain Text.
-1
-APP_NAME=DocentesAlumnos
-2
- 
-3
+1. Registrarse.
+2. Cargar fotografía.
+3. Iniciar sesión.
+4. Visualizar perfil.
+5. Modificar información personal.
+
+---
+
+## Como Docente
+
+1. Iniciar sesión.
+2. Acceder al menú "Usuarios".
+3. Visualizar listado completo.
+4. Consultar el detalle de cualquier alumno.
+
+---
+
+# ⚙️ Variables de Entorno
+
+```env
 DB_CONNECTION=mysql
-4
 DB_HOST=db
-5
 DB_PORT=3306
-6
 DB_DATABASE=docentes_alumnos
-7
 DB_USERNAME=laravel
-8
 DB_PASSWORD=secret
-9
- 
-10
+
 WHATSAPP_PREFIX=+54
-Mostrar más líneas
-🧪 Flujo de Uso
-Como Docente
-Iniciar sesión con:
-Plain Text
-1
-admin@utn.edu.ar
-2
-password
-Mostrar más líneas
-Acceder a:
-Plain Text
-1
-Usuarios
-2
-``
-Mostrar más líneas
+```
 
-Ver el listado completo de alumnos.
+---
 
-Consultar el detalle de cualquier usuario.
+# 🔨 Comandos Útiles
 
-Utilizar:
+### Ver logs
 
-Enlace directo a WhatsApp.
-Enlace a LinkedIn, GitHub u otra red profesional.
-Foto de perfil.
-Como Alumno
-Registrarse.
-Completar todos los campos solicitados.
-Subir foto de perfil.
-Iniciar sesión.
-Acceder a:
-Plain Text
-1
-Perfil
-Mostrar más líneas
-Editar información personal.
-🗄️ Modelo de Datos
-
-Tabla principal: users
-
-Campos relevantes:
-
-Plain Text
-1
-id
-2
-name
-3
-email
-4
-password
-5
-is_admin
-6
-phone
-7
-professional_url
-8
-photo_path
-9
-email_verified_at
-10
-remember_token
-11
-created_at
-12
-updated_at
-Mostrar más líneas
-🛠️ Comandos Útiles
-Ver logs
-Shell
-1
+```bash
 docker compose logs -f
-Mostrar más líneas
-Ingresar al contenedor
-Shell
-1
-docker compose exec app bash
-Mostrar más líneas
-Reiniciar contenedores
-Shell
-1
+```
+
+### Reiniciar servicios
+
+```bash
 docker compose restart
-Mostrar más líneas
-Detener el proyecto
-Shell
-1
+```
+
+### Acceder al contenedor
+
+```bash
+docker compose exec app bash
+```
+
+### Detener aplicación
+
+```bash
 docker compose down
-Mostrar más líneas
-Eliminar y reconstruir todo
-Shell
-1
+```
+
+### Eliminar y reconstruir todo
+
+```bash
 docker compose down -v
-2
 docker compose up -d --build
-Mostrar más líneas
-🐛 Solución de Problemas
-Error de migraciones
+```
 
-Ejecutar:
+---
 
-Shell
-1
-docker compose exec app php artisan migrate:fresh --seed
-Mostrar más líneas
-La imagen no se muestra
+# 📚 Tecnologías Utilizadas
 
-Verificar:
+- PHP 8.3
+- Laravel 13
+- MySQL 8
+- Laravel Breeze
+- Blade
+- Tailwind CSS
+- Vite
+- Docker
+- Docker Compose
 
-Shell
-1
-docker compose exec app php artisan storage:link
-Mostrar más líneas
+---
 
-Comprobar que exista:
+# 🎯 Objetivos Académicos Alcanzados
 
-Plain Text
-1
-storage/app/public/profiles
-Mostrar más líneas
-Error de conexión con MySQL
+✅ Arquitectura MVC
 
-Verificar contenedores activos:
+✅ Autenticación y autorización
 
-Shell
-1
-docker compose ps
-Mostrar más líneas
+✅ Relaciones con base de datos MySQL
 
-La base de datos debe aparecer como:
+✅ Formularios y validaciones
 
-Plain Text
-1
-db running
-Mostrar más líneas
-Reconstrucción completa
-Shell
-1
-docker compose down -v
-2
-docker compose up -d --build
-3
-docker compose exec app php artisan migrate:fresh --seed
-Mostrar más líneas
-📚 Tecnologías Utilizadas
-Laravel 13
-PHP 8.3
-MySQL 8
-Docker & Docker Compose
-Laravel Breeze
-Blade
-Tailwind CSS
-Vite
-✅ Instalación rápida (TL;DR)
-Shell
-1
-git clone https://github.com/USUARIO/DocentesAlumnos.git
-2
-cd DocentesAlumnos
-3
- 
-4
-cp .env.example .env
-5
- 
-6
-docker compose up -d --build
-7
- 
-8
-docker compose exec app php artisan key:generate
-9
-docker compose exec app php artisan migrate:fresh --seed
-10
-docker compose exec app php artisan storage:link
-11
- 
-12
-http://localhost:8000
-Mostrar más líneas
+✅ Gestión de archivos e imágenes
 
-Con estos pasos cualquier docente puede clonar el repositorio y tener el proyecto funcionando sin instalar PHP, Composer, Node.js ni MySQL en su computadora.
+✅ Middleware personalizados
+
+✅ Policies de autorización
+
+✅ Dockerización de aplicaciones Laravel
+
+✅ Buenas prácticas de desarrollo
+
+---
+
+# 👨‍💻 Autor
+
+**Jorge Luis Rojas Jojot**
+
+Técnicatura Universitaria en Programación  
+Universidad Tecnológica Nacional (UTN)
+
+---
+
+## 📸 Evidencias del Sistema
+
+> Se recomienda agregar capturas de pantalla del:
+>
+> - Login
+> - Registro
+> - Perfil de alumno
+> - Listado de usuarios
+> - Detalle de usuario
+> - Base de datos
+>
+> para complementar la presentación del proyecto.
+
+---
+
+⭐ Proyecto desarrollado como Trabajo Práctico para la asignatura **Programación IV** utilizando Laravel 13, MySQL y Docker.
