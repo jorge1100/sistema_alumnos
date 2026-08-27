@@ -85,7 +85,7 @@
                         Requerido. Debe ser único en la tabla users.
                     ============================================================== --}}
                     <div class="mb-5">
-                        <x-input-label for="email" :value="__('Email')" class="text-slate-700 font-semibold text-sm mb-1" />
+                        <x-input-label for="email" :value="__('Correo electrónico')" class="text-slate-700 font-semibold text-sm mb-1" />
                         <x-text-input id="email"
                                       class="block w-full bg-slate-50 border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl"
                                       type="email"

@@ -38,7 +38,7 @@
 
                         <!-- Email -->
                         <div class="mb-4">
-                            <x-input-label for="email" :value="__('Email')" class="text-slate-700 font-semibold text-sm mb-1.5" />
+                            <x-input-label for="email" :value="__('Correo electrónico')" class="text-slate-700 font-semibold text-sm mb-1.5" />
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/></svg>
@@ -116,7 +116,7 @@
                         </h3>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <!-- Password -->
+                            <!-- Contraseña -->
                             <div>
                                 <x-input-label for="password" :value="__('Contraseña')" class="text-slate-700 font-semibold text-sm mb-1.5" />
                                 <div class="relative">
@@ -128,7 +128,7 @@
                                 <x-input-error :messages="$errors->get('password')" class="mt-2 text-xs" />
                             </div>
 
-                            <!-- Confirm Password -->
+                            <!-- Confirmar contraseña -->
                             <div>
                                 <x-input-label for="password_confirmation" :value="__('Confirmar contraseña')" class="text-slate-700 font-semibold text-sm mb-1.5" />
                                 <div class="relative">

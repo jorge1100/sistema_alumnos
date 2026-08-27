@@ -34,7 +34,7 @@
                 </div>
                 <div class="flex items-center gap-4">
                     @auth
-                        <a href="{{ route('dashboard') }}" class="text-slate-600 hover:text-indigo-600 font-medium transition">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="text-slate-600 hover:text-indigo-600 font-medium transition">Panel</a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
                             <button type="submit" class="text-slate-600 hover:text-red-600 font-medium transition">Salir</button>

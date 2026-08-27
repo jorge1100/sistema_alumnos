@@ -12,10 +12,10 @@
                 <p class="mt-1 text-indigo-200 text-sm">Iniciá sesión para continuar</p>
             </div>
 
-            <!-- Form card -->
+                <!-- Tarjeta del formulario -->
             <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-8">
 
-                <!-- Session Status -->
+                <!-- Estado de sesión -->
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
                 <form method="POST" action="{{ route('login') }}">
@@ -23,7 +23,7 @@
 
                     <!-- Email -->
                     <div class="mb-5">
-                        <x-input-label for="email" :value="__('Email')" class="text-slate-700 font-semibold text-sm mb-1.5" />
+                        <x-input-label for="email" :value="__('Correo electrónico')" class="text-slate-700 font-semibold text-sm mb-1.5" />
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/></svg>
@@ -45,7 +45,7 @@
                         <x-input-error :messages="$errors->get('password')" class="mt-2 text-xs" />
                     </div>
 
-                    <!-- Remember Me + Forgot -->
+                    <!-- Recordarme + Olvidé mi contraseña -->
                     <div class="flex items-center justify-between mb-6">
                         <label for="remember_me" class="inline-flex items-center">
                             <input id="remember_me" type="checkbox" class="rounded border-slate-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
@@ -66,7 +66,7 @@
                     </button>
                 </form>
 
-                <!-- Divider -->
+                    <!-- Separador -->
                 <div class="relative my-6">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-slate-200"></div>
@@ -84,7 +84,7 @@
 
             </div>
 
-            <!-- Footer -->
+                <!-- Pie de página -->
             <p class="mt-6 text-center text-xs text-indigo-200">
                 UTN — Técnicatura Universitaria en Programación · Programación IV
             </p>
