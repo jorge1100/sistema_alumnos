@@ -28,7 +28,7 @@ class UpdateProfileRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->user()->id),],
             'phone' => ['nullable', 'string', 'max:20'],
             'professional_url' => ['nullable', 'url', 'max:255'],
-            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:51200'],
         ];
     }
 
@@ -40,7 +40,7 @@ class UpdateProfileRequest extends FormRequest
             'professional_url.url' => 'La url debe ser valido.',
             'photo.image' => 'El archivo debe ser una image.',
             'photo.mimes' => 'La foto debe ser JPG o PNG.',
-            'photo.max' => 'la fot no puede pesar mas de 2MB.',
+            'photo.max' => 'La foto no puede pesar más de 50MB.',
         ];
     }
 }
