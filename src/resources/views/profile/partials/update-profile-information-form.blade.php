@@ -29,7 +29,7 @@
         <div class="mt-4">
             <x-input-label for="photo" :value="__('Cambiar foto de perfil')" />
             <input id="photo" name="photo" type="file" accept="image/*" class="block mt-1 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" />
-            <p class="mt-1 text-xs text-gray-500">JPG o PNG. Máximo 2MB.</p>
+            <p class="mt-1 text-xs text-gray-500">JPG o PNG. Máximo 50MB.</p>
             <x-input-error class="mt-2" :messages="$errors->get('photo')" />
         </div>
 

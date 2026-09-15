@@ -19,8 +19,10 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 // ========================================================================
 // RUTAS PÚBLICAS (sin autenticación)
@@ -30,6 +32,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('inicio');
+
+// ========================================================================
+// RUTAS DE CONTACTO (públicas)
+// ========================================================================
+
+Route::get('/contacto', [ContactController::class, 'create'])
+    ->name('contacto');
+
+Route::post('/contacto', [ContactController::class, 'send'])
+    ->name('contacto.send');
+
+// ========================================================================
+// RUTAS DE AUTENTICACIÓN (Laravel Breeze)
+// ========================================================================
+// Login, registro, recuperación de contraseña, verificación de email, etc.
+require __DIR__ . '/auth.php';
 
 // ========================================================================
 // RUTAS DEL DASHBOARD (requieren login + email verificado)
@@ -78,10 +96,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/admins', [AdminController::class, 'index'])->name('admins.index');
     Route::get('/admins/create', [AdminController::class, 'create'])->name('admins.create');
     Route::post('/admins', [AdminController::class, 'store'])->name('admins.store');
-});
 
-// ========================================================================
-// RUTAS DE AUTENTICACIÓN (Laravel Breeze)
-// ========================================================================
-// Login, registro, recuperación de contraseña, verificación de email, etc.
-require __DIR__ . '/auth.php';
+    // ----- MENSAJES DE CONTACTO -----
+    Route::get('/mensajes', [ContactMessageController::class, 'index'])->name('messages.index');
+    Route::get('/mensajes/{message}', [ContactMessageController::class, 'show'])->name('messages.show');
+    Route::delete('/mensajes/{message}', [ContactMessageController::class, 'destroy'])->name('messages.destroy');
+});

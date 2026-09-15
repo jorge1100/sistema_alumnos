@@ -7,6 +7,7 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
+      - ./imagen:/var/www/html/imagen
 
   nginx:
     image: nginx:latest
@@ -19,8 +20,19 @@ services:
       - "8444:443"
     volumes:
       - ./src:/var/www/html
+      - ./imagen:/var/www/html/imagen
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./ssl:/etc/nginx/ssl
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    restart: unless-stopped
+    ports:
+      - "9432:1025"
+      - "7653:8025"
+    environment:
+      MP_UI_AUTH: "jorge:123456789"
 
   mariadb:
     image: mariadb:latest
