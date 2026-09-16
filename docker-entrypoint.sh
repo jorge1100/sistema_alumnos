@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# Install composer dependencies if vendor doesn't exist
+if [ ! -f /var/www/html/vendor/autoload.php ]; then
+    echo "Installing composer dependencies..."
+    composer install --no-dev --optimize-autoloader --no-interaction
+fi
+
 # Create storage directory structure if not exists
 mkdir -p /var/www/html/storage/app/public/profiles
 mkdir -p /var/www/html/storage/framework/{views,cache,sessions,testing}
